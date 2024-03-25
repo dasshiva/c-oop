@@ -1,0 +1,18 @@
+class Main
+	instance int a = 90;
+	instance int b = 90;
+	static fn void main() 
+	begin
+		Main* m = new Main();
+		printf("Hello World");
+	end
+	instance fn void hehe(int a)
+	begin 
+		this->a = 5;
+	end
+end
+
+class Hello
+	instance int c = 90;
+	instance int d = 100;
+end
