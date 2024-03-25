@@ -1,4 +1,4 @@
-import re, sys, random
+import re, sys
 
 def remove_whitespace(t):
     if len(t) == 0:
@@ -25,7 +25,7 @@ class Compiler:
         self.fn_main = "int main(int argc, const char** argv) {\n"
 
     def finalise_fn(self, prelude, init):
-        fn_name = "fn_" + str(random.randint(0, 1 << 20))
+        fn_name = "fn_" + prelude.group(3);
         fn = f"{prelude.group(2)} {fn_name} ({init[2]})";
         for i in init[4:]:
             fn += i

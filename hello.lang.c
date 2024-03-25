@@ -33,19 +33,19 @@ return this;
 }struct ___Stdio* fn_construc_Stdiostatic (struct ___Stdio* this){
 return this;
 }Main* fn_construc_Main (__Main* this); 
-void fn_305501 (){
+void fn_main (){
 Main* m = new_object(fn_construc_Main, sizeof(struct ___Main));
 ;printf("Hello World");}
-void fn_393935 (struct ___Main* this,int a){
+void fn_hehe (struct ___Main* this,int a){
 this->a = a;}
 Hello* fn_construc_Hello (__Hello* this); 
 struct ___Main* fn_construc_Main (struct ___Main* this) {
 this->a = 90;
 this->b = 90;
-this->hehe = fn_393935;
+this->hehe = fn_hehe;
 return this;
 }struct ___Main* fn_construc_Mainstatic (struct ___Main* this){
-this->main = fn_305501;
+this->main = fn_main;
 return this;
 }struct ___Hello* fn_construc_Hello (struct ___Hello* this) {
 this->c = 90;
