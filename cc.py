@@ -10,10 +10,8 @@ copyright ="""
 Copyright(C) 2024 Shivashish Das */
 """
 class Compiler:
-    def __init__(self):
-        if len(sys.argv) != 2:
-            print("Usage : cc [FILENAME]")
-        lines = open(sys.argv[1], "r").readlines()
+    def __init__(self, file):
+        lines = open(file, "r").readlines()
         self.lines = list(map(remove_whitespace, lines))
 
         self.svar_init = {}
@@ -54,12 +52,14 @@ class Compiler:
         self.constructors += static_fn
         return fn_name
 
-    def process(self):
+    def process(self, toplevel):
         match_obj = None
         in_class = False
         in_fn = False
         output = []
 
+        self.fn_main = "" if not toplevel else self.fn_main
+        import_decl = re.compile(r'import\s*([A-Z]+)', re.IGNORECASE)
         class_decl = re.compile(r'class\s*([A-Z]+)', re.IGNORECASE)
         var_decl = re.compile(r'(static|instance)\s*([A-Z]+)\s*([A-Z]+)\s*=\s*((\S)+;)', re.IGNORECASE)
         fn_decl = re.compile(r'(static|instance)\s*fn\s*([A-Z]+)\s*([A-Z]+)\s*\(((.)*)\)', re.IGNORECASE)
@@ -102,6 +102,15 @@ class Compiler:
                 self.fn_init[match_obj.group(3)].append(i if not new else new)
                 continue
 
+            match_obj = re.search(import_decl, i)
+            if match_obj:
+                if in_class:
+                    raise Exception("Import statements are only allowed in the top level namespace")
+                src = Compiler(match_obj.group(1) + '.lang').process(False)
+                self.source += src[0]
+                self.fn_main += src[1]
+                continue
+
             match_obj = re.search(class_decl, i)
             if match_obj:
                 in_class = True
@@ -141,18 +150,22 @@ class Compiler:
                 continue
             output.append(i)
 
-        self.fn_main += "_Main->main();\n"
-        self.fn_main += "}\n"
-        generated = copyright + "\n"
+        if toplevel:
+            self.fn_main += "_Main->main();\n"
+            self.fn_main += "}\n"
+        generated = copyright + "\n" if toplevel else ""
         for i in output:
             generated += i
         generated += self.source
         generated += self.constructors
-        generated += self.fn_main
-        return generated
+        generated += self.fn_main if toplevel else ""
+        return generated if toplevel else (generated, self.fn_main)
     def compile(self):
         file = open(sys.argv[1] + ".c", "w")
-        file.write(self.process())
+        file.write(self.process(True))
 
 if __name__ == '__main__':
-    Compiler().compile()
+    if len(sys.argv) != 2:
+        print("Usage: cc.py [FILENAME]")
+        exit(1)
+    Compiler(sys.argv[1]).compile()

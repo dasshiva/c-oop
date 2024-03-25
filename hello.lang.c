@@ -19,20 +19,33 @@ int d;
 };
 __Hello* _Hello = {0};
 void* new_object(void*, unsigned long, ...);
-Main* fn_construc_Main (__Main* this); 
-void fn_628130 (){
+#define Stdio __Stdio
+typedef struct ___Stdio __Stdio;
+struct ___Stdio {
+int b;
+};
+__Stdio* _Stdio = {0};
+void* new_object(void*, unsigned long, ...);
+Stdio* fn_construc_Stdio (__Stdio* this); 
+struct ___Stdio* fn_construc_Stdio (struct ___Stdio* this) {
+this->b = 0;
+return this;
+}struct ___Stdio* fn_construc_Stdiostatic (struct ___Stdio* this){
+return this;
+}Main* fn_construc_Main (__Main* this); 
+void fn_305501 (){
 Main* m = new_object(fn_construc_Main, sizeof(struct ___Main));
 ;printf("Hello World");}
-void fn_692414 (struct ___Main* this,int a){
+void fn_393935 (struct ___Main* this,int a){
 this->a = a;}
 Hello* fn_construc_Hello (__Hello* this); 
 struct ___Main* fn_construc_Main (struct ___Main* this) {
 this->a = 90;
 this->b = 90;
-this->hehe = fn_692414;
+this->hehe = fn_393935;
 return this;
 }struct ___Main* fn_construc_Mainstatic (struct ___Main* this){
-this->main = fn_628130;
+this->main = fn_305501;
 return this;
 }struct ___Hello* fn_construc_Hello (struct ___Hello* this) {
 this->c = 90;
@@ -41,6 +54,8 @@ return this;
 }struct ___Hello* fn_construc_Hellostatic (struct ___Hello* this){
 return this;
 }int main(int argc, const char** argv) {
+_Stdio = calloc(1, sizeof(struct ___Stdio));
+ _Stdio = fn_construc_Stdiostatic(_Stdio);
 _Main = calloc(1, sizeof(struct ___Main));
  _Main = fn_construc_Mainstatic(_Main);
 _Hello = calloc(1, sizeof(struct ___Hello));
