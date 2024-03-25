@@ -1,1 +1,0 @@
-savedcmd_/home/shiva/module/exe.ko := ld -r -m elf_x86_64 -z noexecstack --build-id=sha1  -T scripts/module.lds -o /home/shiva/module/exe.ko /home/shiva/module/exe.o /home/shiva/module/exe.mod.o;  make -f ./arch/x86/Makefile.postlink /home/shiva/module/exe.ko
