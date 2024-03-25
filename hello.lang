@@ -8,7 +8,7 @@ class Main
 	end
 	instance fn void hehe(int a)
 	begin 
-		this->a = 5;
+		this.a = a;
 	end
 end
 
